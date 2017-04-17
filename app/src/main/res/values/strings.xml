@@ -2,6 +2,12 @@
     <string name="app_name">Navigation  Application</string>
     <string name="facebook_app_id">1826569937606960</string>
     <string name="facebook_app_key">cf7de7bc717be10e9efb4a0456748350</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>

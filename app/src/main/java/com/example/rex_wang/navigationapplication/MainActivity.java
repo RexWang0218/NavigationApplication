@@ -1,7 +1,6 @@
 package com.example.rex_wang.navigationapplication;
 
 import android.app.ProgressDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -21,6 +20,8 @@ import com.example.rex_wang.navigationapplication.utility.BluetoothSetting;
 import com.example.rex_wang.navigationapplication.utility.DL;
 import com.example.rex_wang.navigationapplication.utility.Img;
 import com.example.rex_wang.navigationapplication.utility.NetworkSetting;
+import com.facebook.FacebookSdk;
+import com.facebook.share.widget.LikeView;
 
 
 /**
@@ -31,34 +32,47 @@ import com.example.rex_wang.navigationapplication.utility.NetworkSetting;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private final String TAG = "--- MainActivity ---";
-    private int RESULT = 1,welcome;
-    private Toolbar mToolbar;
-    private Button mButton;
-    private ImageView mImageView;
+    private Toolbar tb_main;
+    private Button btn_location_information, btn_activity_list;
+    private ImageView img_main;
     private SoundPool mSoundPool;
-
-
+    private LikeView lv_facebook;
+    private int welcome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, " onCreate ");
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
         init();
     }
 
     private void init() {
         Log.d(TAG, " init ");
         if (BluetoothSetting.isSupport(this)) {
-            mToolbar = (Toolbar) findViewById(R.id.toolbar_main);
-            mToolbar.setTitle("Demo-主頁面");
-            mButton = (Button) findViewById(R.id.btn_main);
-            mButton.setOnClickListener(this);
-            mImageView = (ImageView) findViewById(R.id.img_main);
+            // 標題列
+            tb_main = (Toolbar) findViewById(R.id.toolbar_main);
+            tb_main.setTitle("創夢工廠導覽");
+            // 活動列表 btn
+            btn_activity_list = (Button) findViewById(R.id.btn_activity_list);
+            btn_activity_list.setOnClickListener(this);
+            // 導覽 btn
+            btn_location_information = (Button) findViewById(R.id.btn_location_information);
+            btn_location_information.setOnClickListener(this);
+            // 首頁圖片
+            img_main = (ImageView) findViewById(R.id.img_main);
+            img_main.setImageDrawable(getResources().getDrawable(R.drawable.home));
+            // 音效
             mSoundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
-            welcome = mSoundPool.load(this, R.raw.welcome,1);
-        }else {
-            Toast.makeText(this,"此設備不支援低號頻藍芽",Toast.LENGTH_SHORT).show();
+            welcome = mSoundPool.load(this, R.raw.welcome, 1);
+            // 按讚
+            lv_facebook = (LikeView) findViewById(R.id.lv_facebook);
+            lv_facebook.setObjectIdAndType("https://www.facebook.com/AndroidOfficial/?ref=br_rs", LikeView.ObjectType.DEFAULT);
+
+        } else {
+            Toast.makeText(this, "此設備不支援低號頻藍芽", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -78,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Intent it = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
 //            startActivityForResult(it, RESULT);
         } else {
-            downloadImg();
+//            downloadImg();
         }
     }
 
@@ -97,15 +111,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.btn_main) {
-            if (!BluetoothSetting.isConnected(this)) {
-                Intent it = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivity(it);
-            } else {
-                Intent it = new Intent(this, ScanActivity.class);
-                startActivity(it);
-            }
+        Log.d(TAG, " onClick ");
+        if (view.getId() == R.id.btn_location_information) {
+            Intent it = new Intent(this, ScanActivity.class);
+            startActivity(it);
+
+        } else if (view.getId() == R.id.btn_activity_list) {
+            Toast.makeText(MainActivity.this, "尚未連接功能", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, " onActivityResult ");
     }
 
     private void downloadImg() {
@@ -118,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (msg.what) {
                     case 3:
                         dialog.dismiss();
-                        mImageView.setImageBitmap(Img.getImg());
-                        mSoundPool.play(welcome,1,1,0,0,1);
+                        img_main.setImageBitmap(Img.getImg());
+                        mSoundPool.play(welcome, 1, 1, 0, 0, 1);
                         break;
                 }
                 super.handleMessage(msg);

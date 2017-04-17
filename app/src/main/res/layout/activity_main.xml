@@ -8,63 +8,54 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_main"
-        android:background="#02DF82"
-        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="#02DF82"
+        android:minHeight="?attr/actionBarSize" />
 
 
     <ImageView
+        android:id="@+id/img_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="3dp"
-        android:paddingRight="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar_main"
         android:paddingLeft="3dp"
-        android:scaleType="fitStart"
-        android:id="@+id/img_main"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar_main" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_main"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp"
-        >
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="F\nI\nL\nA\nB"
-            android:textColor="#FF0000"
-            android:textSize="20sp"
-            android:lineSpacingExtra="8sp"
-            android:gravity="right"
-            android:paddingRight="5dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ind ideas \nnspire passion \nearn innovation \npply resources \nuild dreams"
-            android:textColor="#0000FF"
-            android:textSize="20sp"
-            android:lineSpacingExtra="8sp"/>
-    </LinearLayout>
-
+        android:paddingRight="3dp"
+        android:paddingTop="3dp"
+        android:scaleType="fitStart" />
 
     <Button
+        android:id="@+id/btn_activity_list"
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:text="進入導覽"
-        android:id="@+id/btn_main"
-        android:textColor="#0000FF"
-        android:textSize="20sp"
+        android:layout_above="@+id/btn_location_information"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/buttonshape"
-        android:layout_marginBottom="50dp"
+        android:text="活動列表"
+        android:textColor="#0000FF"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_location_information"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/lv_facebook"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/buttonshape"
+        android:text="進入導覽"
+        android:textColor="#0000FF"
+        android:textSize="20sp" />
+
+    <com.facebook.share.widget.LikeView
+        android:id="@+id/lv_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
 
 </RelativeLayout>
